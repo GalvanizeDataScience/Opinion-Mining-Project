@@ -1,0 +1,5 @@
+#.gitignore
+
+./data/*
+./Email_to_Ryan.md
+./other/*
