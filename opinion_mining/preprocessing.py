@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
 import re
-from potts_tokenizer import Tokenizer
-
 from nltk.corpus import stopwords
 
 
@@ -28,26 +26,30 @@ class TokenProcessor():
 		return [t for t in tokens if t not in self.STOPWORDS]
 
 
-class NegationTokenizer():
+class NegationSuffixerAdder():
 	"""
-	Wrapper for Potts tokenizer that also includes
-	support for simple negation marking to aid in
-	sentiment analysis. 
+	Class to add simple negation marking to tokenized
+	text to aid in sentiment analysis. 
 
 	A good explanation of negation marking, along with 
-	details of the approximation approach used here can 
-	be found at: 
+	details of the approach used here can be found at: 
 
 	http://sentiment.christopherpotts.net/lingstruc.html#negation
 
 	As defined in the link above, the basic approach is to 
 	"Append a _NEG suffix to every word appearing between a 
 	negation and a clause-level punctuation mark". Here, negation
-	words are defined as those that match the NEGATIONS regex, and
-	clause-level punctuation marks are those that match the PUNCTS regex. 
+	words are defined as those that match the NEGATION_RE regex, and
+	clause-level punctuation marks are those that match the PUNCT_RE regex. 
 
 	Please note that this method is due to Das & Chen (2001) and
 	Pang, Lee & Vaithyanathan (2002)
+
+	
+	NOTE TO SELF: 
+	This is a refactor of NegationTokenizer. Makes more sense as 
+	a separate object, so that can decouple the tokenization
+	process from the negation suffix addition process. 
 	"""
 
 	# Regex credit: Chris Potts
@@ -66,29 +68,21 @@ class NegationTokenizer():
 	PUNCT_RE = re.compile("^[.:;!?]$")
 
 	def __init__(self):
-		"""
-		Initialize Potts tokenizer
-		"""
+		pass
 
-		self.tokenizer = Tokenizer()
-		
-	def tokenize(self, s):
+	def add_negation_suffixes(self, tokens):
 		"""
-		INPUT: string s to be tokenized
-		OUTPUT: list of strings (negation tokenized text)
+		INPUT: List of strings (tokenized sentence)
+		OUTPUT: List of string with negation suffixes added
 
-		Do the tokenization (with negation marking).
+		Adds negation markings to a tokenized string. 
 		"""
-
-		# strip, lowercase, and tokenize
-		raw_tokens = self.tokenizer.tokenize(s.strip().lower())
 
 		# negation tokenization
 		neg_tokens = []
 		append_neg = False # stores whether to add "_NEG"
-	
-		# logic to decide whether to append "_NEG" suffix
-		for token in raw_tokens:
+		
+		for token in tokens:
 			
 			# if we see clause-level punctuation, 
 			# stop appending suffix
