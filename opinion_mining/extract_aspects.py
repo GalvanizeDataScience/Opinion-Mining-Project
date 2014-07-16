@@ -1,3 +1,6 @@
+from nltk.tag.stanford import POSTagger
+st = POSTagger('/Users/jeff/Zipfian/opinion-mining/references/resources/stanford-pos/stanford-postagger-2014-06-16/models/english-bidirectional-distsim.tagger', 
+               '/Users/jeff/Zipfian/opinion-mining/references/resources/stanford-pos/stanford-postagger-2014-06-16/stanford-postagger.jar')
 #!/usr/bin/env python
 
 """
@@ -6,6 +9,9 @@ File for aspect extraction functions
 
 import nltk
 import sys
+
+from collections import Counter
+from nltk.corpus import stopwords
 
 from opinion_mining.external.potts_tokenizer import PottsTokenizer
 
@@ -31,7 +37,7 @@ def tokenize(sentence):
 	OUTPUT: list of strings
 
 	Given a sentence in string form, return 
-	a tokenized list. 
+	a tokenized list of lowercased words. 
 	"""
 	pt = PottsTokenizer(preserve_case=False)
 	return pt.tokenize(sentence)
@@ -49,6 +55,23 @@ def pos_tag(toked_sentence):
 	return nltk.pos_tag(toked_sentence)
 
 
+def pos_tag_stanford(toked_sentence):
+	"""
+	INPUT: list of strings
+	OUTPUT: list of tuples
+
+	Given a tokenized sentence, return 
+	a list of tuples of form (token, POS)
+	where POS is the part of speech of token
+	"""
+
+	from nltk.tag.stanford import POSTagger
+	st = POSTagger('/Users/jeff/Zipfian/opinion-mining/references/resources/stanford-pos/stanford-postagger-2014-06-16/models/english-bidirectional-distsim.tagger', 
+               '/Users/jeff/Zipfian/opinion-mining/references/resources/stanford-pos/stanford-postagger-2014-06-16/stanford-postagger.jar')
+
+	return st.tag(toked_sentence)
+
+
 def aspects_from_tagged_sents(tagged_sentences):
 	"""
 	INPUT: list of lists of strings
@@ -57,6 +80,23 @@ def aspects_from_tagged_sents(tagged_sentences):
 	Given a list of tokenized and pos_tagged sentences from reviews
 	about a given restaurant, return the most common aspects
 	"""
-	pass
+
+	STOPWORDS = set(stopwords.words('english'))
+
+	noun_counter = Counter()
+
+	for sent in tagged_sentences:
+		for word, pos in rev: 
+			if pos=='NNP' or pos=='NN' and word not in STOPWORDS:
+				noun_counter[word] += 1
+
+	# list of tuples of form (noun, count)
+	return [noun for noun, _ in noun_counter.most_common(10)]
+		
+
+
+
+
+
 
 
