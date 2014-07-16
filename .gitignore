@@ -1,5 +1,8 @@
 #.gitignore
 
-./data/*
+references
+data
 ./Email_to_Ryan.md
 ./other/*
+*.py[co]
+.gitignore~

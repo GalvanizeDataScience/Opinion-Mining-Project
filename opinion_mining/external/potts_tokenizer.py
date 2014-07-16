@@ -136,7 +136,7 @@ amp = "&amp;"
 
 ######################################################################
 
-class Tokenizer:
+class PottsTokenizer:
     def __init__(self, preserve_case=False):
         self.preserve_case = preserve_case
 
