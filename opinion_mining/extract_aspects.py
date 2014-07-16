@@ -1,6 +1,3 @@
-from nltk.tag.stanford import POSTagger
-st = POSTagger('/Users/jeff/Zipfian/opinion-mining/references/resources/stanford-pos/stanford-postagger-2014-06-16/models/english-bidirectional-distsim.tagger', 
-               '/Users/jeff/Zipfian/opinion-mining/references/resources/stanford-pos/stanford-postagger-2014-06-16/stanford-postagger.jar')
 #!/usr/bin/env python
 
 """
@@ -13,7 +10,7 @@ import sys
 from collections import Counter
 from nltk.corpus import stopwords
 
-from opinion_mining.external.potts_tokenizer import PottsTokenizer
+from external.potts_tokenizer import PottsTokenizer
 
 def get_sentences(review):
 	"""
@@ -39,8 +36,12 @@ def tokenize(sentence):
 	Given a sentence in string form, return 
 	a tokenized list of lowercased words. 
 	"""
+
 	pt = PottsTokenizer(preserve_case=False)
-	return pt.tokenize(sentence)
+	if isinstance(sentence, str):
+		return pt.tokenize(sentence)
+	else: 
+		raise TypeError('Tokenize got type %s, expected string' % type(sentence))
 
 
 def pos_tag(toked_sentence):
@@ -83,6 +84,7 @@ def aspects_from_tagged_sents(tagged_sentences):
 
 	STOPWORDS = set(stopwords.words('english'))
 
+	# find the most common nouns in the sentences
 	noun_counter = Counter()
 
 	for sent in tagged_sentences:
