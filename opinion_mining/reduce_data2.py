@@ -4,9 +4,10 @@ This file reads in the following Yelp datasets:
 - review data set
 - business data set
 
-It then merges the two datasets and retains only 
+It then merges the two datasets and retains only Restaurants
+that have a large number of reviews. It then writes the resulting
+DataFrame to disk for later consumption
 """
-
 
 import json
 import pandas as pd
