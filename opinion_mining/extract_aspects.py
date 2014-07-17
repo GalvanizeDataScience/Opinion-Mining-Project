@@ -10,7 +10,7 @@ import sys
 from collections import Counter
 from nltk.corpus import stopwords
 
-from external.potts_tokenizer import PottsTokenizer
+from external.my_potts_tokenizer import MyPottsTokenizer
 
 def get_sentences(review):
 	"""
@@ -37,12 +37,9 @@ def tokenize(sentence):
 	a tokenized list of lowercased words. 
 	"""
 
-	pt = PottsTokenizer(preserve_case=False)
-	if isinstance(sentence, str):
-		return pt.tokenize(sentence)
-	else: 
-		raise TypeError('Tokenize got type %s, expected string' % type(sentence))
-
+	pt = MyPottsTokenizer(preserve_case=False)
+	return pt.tokenize(sentence)
+	
 
 def pos_tag(toked_sentence):
 	"""

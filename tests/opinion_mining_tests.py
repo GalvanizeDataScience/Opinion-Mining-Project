@@ -1,8 +1,8 @@
 from nose.tools import *
 import opinion_mining
 
-from opinion_mining.preprocessing import TokenProcessor, NegationSuffixerAdder
-from opinion_mining.external.potts_tokenizer import PottsTokenizer
+from opinion_mining.unused import TokenProcessor, NegationSuffixerAdder
+from opinion_mining.external.my_potts_tokenizer import MyPottsTokenizer
 
 
 def setup():
@@ -20,7 +20,7 @@ def test_negation_tokenizer():
 	"""
 
 	sentence = "The food is not very good. Or is it?"
-	tokenizer = PottsTokenizer()
+	tokenizer = MyPottsTokenizer()
 	neg_suffer = NegationSuffixerAdder()
 
 	tokenized_sent = tokenizer.tokenize(sentence)
@@ -36,7 +36,7 @@ def test_token_processor():
 	Test the token processor
 	"""
 	sentence = "The food is not very good. Or is it?"
-	tokenizer = PottsTokenizer()
+	tokenizer = MyPottsTokenizer()
 	tokenized_sent = tokenizer.tokenize(sentence)
 
 	tp = TokenProcessor()
