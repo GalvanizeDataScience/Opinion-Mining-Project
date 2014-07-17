@@ -26,12 +26,15 @@ def extract_aspects(reviews):
 	from extract_aspects import get_sentences, tokenize, pos_tag, aspects_from_tagged_sents
 
 	# put all the sentences in all reviews in one stream
-	sentences = []
-	for review in reviews: 
-		sentences.extend(get_sentences(review))
+	#sentences = []
+	#for review in reviews: 
+	#	sentences.extend(get_sentences(review))
+
+	tokenized_sentences = [tokenize(sentence) for sentence in sentences
+							for sentences in get_sentences(review)]
 
 	# tokenize each sentence
-	tokenized_sentences = [tokenize(sentence) for sentence in sentences]
+	#tokenized_sentences = [tokenize(sentence) for sentence in sentences]
 
 	# pos tag each sentence
 	tagged_sentences = [pos_tag(sentence) for sentence in tokenized_sentences]

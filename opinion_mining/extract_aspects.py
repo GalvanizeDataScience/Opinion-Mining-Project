@@ -39,7 +39,7 @@ def tokenize(sentence):
 
 	pt = MyPottsTokenizer(preserve_case=False)
 	return pt.tokenize(sentence)
-	
+
 
 def pos_tag(toked_sentence):
 	"""

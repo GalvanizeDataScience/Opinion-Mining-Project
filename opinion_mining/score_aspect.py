@@ -3,7 +3,7 @@ File for aspect scoring functions
 """
 
 from __future__ import division
-from external.potts_tokenizer import PottsTokenizer
+from external.my_potts_tokenizer import MyPottsTokenizer
 
 class UnsupervisedLiu(): 
 	"""
@@ -94,16 +94,21 @@ class SentimentScorer():
 
 	def score(self, sentence):
 		"""
-		INPUT: SentimentScorer, string
+		INPUT: SentimentScorer, string or list of strings
 		OUTPUT: int in {-1, 0, +1}
 		
-		Given a sentence, return a sentiment score
+		Given a sentence (tokenized or not), return a sentiment score
 		for it. 
 		"""
-		
+	
 		# SKETCH: 
-		featurized_sent = self.featurize(sentence)
-		score = self.model.predict(featurized_sent)
+		
+		if isinstance(sentence, str):
+			sentence = self.featurize(sentence)
+		elif not isinstance(sentence, list):
+			raise TypeError, "SentimentScorer.score got %s, expected string or list" % type(sentence)
+
+		score = self.model.predict(sentence)
 		return score
 
 	def featurize(self, sentence):
@@ -114,7 +119,7 @@ class SentimentScorer():
 		Given a sentence, return a featurized version
 		that can be consumed by the self.model's predict method. 
 		"""
-		pt = PottsTokenizer(preserve_case=False)
+		pt = MyPottsTokenizer(preserve_case=False)
 		return pt.tokenize(sentence)
 
 
@@ -133,12 +138,13 @@ def get_sentences_by_aspect(aspect, reviews):
 	from extract_aspects import get_sentences, tokenize, pos_tag, aspects_from_tagged_sents
 	
 	# get 
-	sentences = []
-	for review in reviews: 
-		sentences.extend(get_sentences(review))
+	#sentences = []
+	#for review in reviews: 
+	#	sentences.extend(get_sentences(review))
 
 	# tokenize each sentence
-	tokenized_sentences = [tokenize(sentence) for sentence in sentences]
+	tokenized_sentences = [tokenize(sentence) for sentence in sentences
+							for sentences in get_sentences(review)]
 
 	return [sent for sent in tokenized_sentences if aspect in sent]
 

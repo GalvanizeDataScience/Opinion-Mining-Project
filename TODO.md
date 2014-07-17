@@ -19,11 +19,11 @@ Broader features to add/prioritize:
 
 Today:
 
-1. Write `test_score_aspect` tests. 
-	* ensure that `main.py` works. 
+1. [DONE] Write `test_score_aspect` tests. 
+	* [DONE] ensure that `main.py` works. 
 2. Get improved sentiment analysis going: 
-	* Incorporate several lexicon-based featurizers.
-	* train/evaluate on movie review dataset.  
+	* Incorporate several lexicon-based 	featurizers.
+	* train/evaluate on movie review 		dataset.  
 	
 	
 	  	
