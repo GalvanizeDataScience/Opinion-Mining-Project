@@ -94,8 +94,40 @@ def aspects_from_tagged_sents(tagged_sentences):
 
 	# list of tuples of form (noun, count)
 	return [noun for noun, _ in noun_counter.most_common(10)]
-		
 
+
+def demo_aspect_extraction(): 
+	"""
+	Demo the aspect extraction functionality on one restaurant
+	"""
+
+	from main import read_data, get_reviews_for_business, extract_aspects
+
+	TEST_BIZ_ID = 's1dex3Z3QoqiK7V-zXUgAw'
+
+	print "Reading data..."
+	df = read_data()
+	print "Done."
+
+	BIZ_NAME = str(df[df.business_id==TEST_BIZ_ID]['name'].iloc[0])
+
+
+	print "Getting reviews for %s (ID = %s)" % (BIZ_NAME, TEST_BIZ_ID)
+	reviews = get_reviews_for_business(TEST_BIZ_ID, df)
+	print "Done."
+
+	print "Extracting aspects..."
+	aspects = extract_aspects(reviews)
+	print "Done."
+
+	print "==========="
+	print "Aspects for %s:" % BIZ_NAME
+	for i,aspect in enumerate(aspects):
+		print str(i) + ". " + aspect
+
+
+if __name__ == "__main__":
+	demo_aspect_extraction()
 
 
 

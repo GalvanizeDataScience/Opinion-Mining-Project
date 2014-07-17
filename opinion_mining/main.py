@@ -1,5 +1,7 @@
-import pandas as pd
+from __future__ import division
 
+import pandas as pd
+import numpy as np
 
 def get_reviews_for_business(bus_id, df):
 	"""
@@ -40,16 +42,23 @@ def extract_aspects(reviews):
 	return aspects
 
 
-def score_aspect(reviews, aspects):
+def score_aspect(reviews, aspect):
 	"""
-	INPUT: list of reviews, list of aspects
+	INPUT: iterable of reviews, iterable of aspects
 	OUTPUT: score of aspect on given set of reviews
 	
 	For a set of reviews and corresponding aspects, 
 	return the score of the aspect on the reviews
 	"""
-	# return score of the aspect in the set of reviews
-	pass
+
+	from score_aspect import SentimentScorer, get_sentences_by_aspect
+
+	sentiment_scorer = SentimentScorer()
+	aspect_sentences = get_sentences_by_aspect(aspect, reviews)
+	scores = [sentiment_scorer.score(sent) for sent in aspect_sentences]
+	
+	print scores
+	return np.mean(scores)
 
 
 def aspect_opinions(reviews):
@@ -59,7 +68,7 @@ def aspect_opinions(reviews):
 	"""
 
 	aspects = extract_aspects(reviews)
-	return dict([(aspect, score_aspect(aspect)) for aspect in aspects])
+	return dict([(aspect, score_aspect(reviews, aspect)) for aspect in aspects])
 
 
 def read_data():
@@ -80,46 +89,18 @@ def main():
 
 	for business in businesses: 
 
-		reviews = get_reviews_for_business(business)
+		reviews = get_reviews_for_business(business,df)
 		score[business] = aspect_opinions(reviews)
 
-
-def demo_aspect_extraction(): 
-	"""
-	Demos the aspect extraction component. 
-	"""
-
-	TEST_BIZ_ID = 's1dex3Z3QoqiK7V-zXUgAw'
-
-	print "Reading data..."
-	df = read_data()
-	print "Done."
-
-	BIZ_NAME = str(df[df.business_id==TEST_BIZ_ID]['name'].iloc[0])
-
-
-	print "Getting reviews for %s (ID = %s)" % (BIZ_NAME, TEST_BIZ_ID)
-	reviews = get_reviews_for_business(TEST_BIZ_ID, df)
-	print "Done."
-
-	print "Extracting aspects..."
-	aspects = extract_aspects(reviews)
-	print "Done."
-
-	print "==========="
-	print "Aspects for %s:" % BIZ_NAME
-	for i,aspect in enumerate(aspects):
-		print str(i) + ". " + aspect
-
-
 if __name__ == "__main__":
-	#main()
-	demo_aspect_extraction()
 	
+	df = read_data()
+	score = {}
 
+	business = 's1dex3Z3QoqiK7V-zXUgAw'
 
-
-
+	reviews = get_reviews_for_business(business,df)
+	score[business] = aspect_opinions(reviews)
 
 
 
