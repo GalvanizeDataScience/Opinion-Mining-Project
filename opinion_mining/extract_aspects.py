@@ -88,7 +88,7 @@ def aspects_from_tagged_sents(tagged_sentences):
 	noun_counter = Counter()
 
 	for sent in tagged_sentences:
-		for word, pos in rev: 
+		for word, pos in sent: 
 			if pos=='NNP' or pos=='NN' and word not in STOPWORDS:
 				noun_counter[word] += 1
 
