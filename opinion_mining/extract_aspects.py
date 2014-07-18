@@ -20,6 +20,8 @@ def get_sentences(review):
 	Given the text of a review, return a list of sentences. 
 	"""
 
+	### FILTER FOR OPINIONATED SENTENCES HERE? 
+
 	sent_detector = nltk.data.load('tokenizers/punkt/english.pickle')
 	
 	if isinstance(review, str):

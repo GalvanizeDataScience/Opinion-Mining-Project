@@ -25,11 +25,6 @@ def extract_aspects(reviews):
 	# import the aspect extraction functions
 	from extract_aspects import get_sentences, tokenize, pos_tag, aspects_from_tagged_sents
 
-	# put all the sentences in all reviews in one stream
-	#sentences = []
-	#for review in reviews: 
-	#	sentences.extend(get_sentences(review))
-
 	tokenized_sentences = [tokenize(sentence) for sentence in sentences
 							for sentences in get_sentences(review)]
 
