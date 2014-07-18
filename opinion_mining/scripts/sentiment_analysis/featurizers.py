@@ -1,36 +1,8 @@
-#!/usr/bin/env python
-
 """
-File that includes various features that have not yet been 
-integrated into the main system, but will likely be of use later. 
+File for sentiment analysis featurizers
 """
 
 from __future__ import division
-import re
-import csv
-from nltk.corpus import stopwords
-
-
-class TokenProcessor():
-	"""
-	Class to handle all of the preprocessing steps on 
-	a tokenized document. 
-	"""
-
-	# Make NLTK's stopwords list more sentiment-aware
-	DELETE = {'should', 'don', 'again', 'not'}
-	STOPWORDS = set(stopwords.words('english')).difference(DELETE)
-
-	def __init__(self):
-		pass
-
-	def lower_case(self, tokens):
-		"""Convert to lower case"""
-		return [t.lower() for t in tokens]
-
-	def filter_stop_words(self, tokens):
-		"""Remove stop words"""
-		return [t for t in tokens if t not in self.STOPWORDS]
 
 class LiuFeaturizer():
 	"""
@@ -103,16 +75,3 @@ class LiuFeaturizer():
 		features['liu_neg'] = num_neg/doc_len
 
 		return features
-
-if __name__ == "__main__":
-	pass
-	## USEFUL SCRAPS: 
-
-	# get 
-	#sentences = []
-	#for review in reviews: 
-	#	sentences.extend(get_sentences(review))
-
-
-
-
