@@ -20,6 +20,8 @@ def get_sentences(review):
 	Given the text of a review, return a list of sentences. 
 	"""
 
+	### FILTER FOR OPINIONATED SENTENCES HERE? 
+
 	sent_detector = nltk.data.load('tokenizers/punkt/english.pickle')
 	
 	if isinstance(review, str):
@@ -65,7 +67,7 @@ def pos_tag_stanford(toked_sentence):
 
 	from nltk.tag.stanford import POSTagger
 	st = POSTagger('/Users/jeff/Zipfian/opinion-mining/references/resources/stanford-pos/stanford-postagger-2014-06-16/models/english-bidirectional-distsim.tagger', 
-               '/Users/jeff/Zipfian/opinion-mining/references/resources/stanford-pos/stanford-postagger-2014-06-16/stanford-postagger.jar')
+	           '/Users/jeff/Zipfian/opinion-mining/references/resources/stanford-pos/stanford-postagger-2014-06-16/stanford-postagger.jar')
 
 	return st.tag(toked_sentence)
 
@@ -91,6 +93,21 @@ def aspects_from_tagged_sents(tagged_sentences):
 
 	# list of tuples of form (noun, count)
 	return [noun for noun, _ in noun_counter.most_common(10)]
+
+def aspects_from_tagged_sents_apriori(tagged_sentences):
+	"""
+	INPUT: 
+	OUTPUT: 
+
+	"""
+	from external import apriori
+
+	noun_sentences = [[word for word, pos in pos_sentence if pos in ['NNP', 'NN','NNS']] for pos_sentence in tagged_sentences]
+	F, support_dat = apriori.apriori(noun_sentences, min_support=0.01)
+
+	# TODO
+	pass
+
 
 
 def demo_aspect_extraction(): 

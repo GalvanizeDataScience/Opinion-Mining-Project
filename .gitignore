@@ -6,3 +6,4 @@ data
 ./other/*
 *.py[co]
 .gitignore~
+*~$

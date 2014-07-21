@@ -25,13 +25,11 @@ def extract_aspects(reviews):
 	# import the aspect extraction functions
 	from extract_aspects import get_sentences, tokenize, pos_tag, aspects_from_tagged_sents
 
-	# put all the sentences in all reviews in one stream
-	#sentences = []
-	#for review in reviews: 
-	#	sentences.extend(get_sentences(review))
+	sentences = []
+	for review in reviews: 
+		sentences.extend(get_sentences(review))
 
-	tokenized_sentences = [tokenize(sentence) for sentence in sentences
-							for sentences in get_sentences(review)]
+	tokenized_sentences = [tokenize(sentence) for sentence in sentences]
 
 	# tokenize each sentence
 	#tokenized_sentences = [tokenize(sentence) for sentence in sentences]
@@ -60,7 +58,6 @@ def score_aspect(reviews, aspect):
 	aspect_sentences = get_sentences_by_aspect(aspect, reviews)
 	scores = [sentiment_scorer.score(sent) for sent in aspect_sentences]
 	
-	print scores
 	return np.mean(scores)
 
 
@@ -104,6 +101,8 @@ if __name__ == "__main__":
 
 	reviews = get_reviews_for_business(business,df)
 	score[business] = aspect_opinions(reviews)
+
+	print score
 
 
 

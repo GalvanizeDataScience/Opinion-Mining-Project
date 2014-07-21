@@ -16,14 +16,12 @@ Broader features to add/prioritize:
 	* Need to do some manual tagging?
 * Improve opinion sentence identification (part of aspect extraction).  
 
-
 Today:
 
 1. [DONE] Write `test_score_aspect` tests. 
 	* [DONE] ensure that `main.py` works. 
-2. Get improved sentiment analysis going: 
+2. [NOW] Get improved sentiment analysis going: 
 	* Incorporate several lexicon-based 	featurizers.
 	* train/evaluate on movie review 		dataset.  
 	
-	
-	  	
+**NOTE TO SELF**: Change `get_sentences(review)` function to `get_opinionated_sentences(review)`==> implement filtering at this step. 
